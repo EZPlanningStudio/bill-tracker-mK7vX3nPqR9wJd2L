@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bill-tracker-v6';
+const CACHE_NAME = 'bill-tracker-v7';
 const FILES_TO_CACHE = [
   '.',
   'index.html',

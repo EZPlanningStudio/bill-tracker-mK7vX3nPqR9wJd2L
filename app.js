@@ -2924,7 +2924,7 @@ function renderSummaryCard(catColors, monthBills, month, year) {
                         <input class="mi-budget-input" type="number" placeholder="${grandBudget > 0 ? grandBudget.toFixed(2) : '—'}"
                             style="color:${data.totalBudget > 0 ? 'var(--peach-text)' : 'var(--muted)'};border-color:var(--peach);"
                             value="${data.totalBudget > 0 ? data.totalBudget.toFixed(2) : ''}"
-                            onchange="saveAllBudget(this)"
+                            oninput="saveAllBudget(this)" onblur="saveAllBudgetOnBlur(this)"
             onfocus="showBudgetHint(this)"
             oninput="showBudgetHint(this)"
             onblur="hideBudgetHint(this)">
@@ -3172,7 +3172,7 @@ function renderCategoryCard(cat, color, monthBills, month, year, overdraftAmount
                             style="color:${color.inputColor};border-color:${color.border};"
                             value="${budget ? budget.toFixed(2) : ""}"
                             data-cat="${cat}"
-                            onchange="saveCategoryBudget(this)"
+                            oninput="saveCategoryBudget(this)" onblur="saveCategoryBudgetOnBlur(this)"
                             onfocus="showBudgetHint(this)"
                             oninput="showBudgetHint(this)"
                             onblur="hideBudgetHint(this)">
@@ -3239,8 +3239,26 @@ function saveCategoryBudget(input) {
     clearTimeout(_budgetSaveTimer);
     _budgetSaveTimer = setTimeout(() => {
         saveData();
-        renderMonthlyInsights();
     }, 800);
+}
+
+function saveCategoryBudgetOnBlur(input) {
+    clearTimeout(_budgetSaveTimer);
+    const cat = input.dataset.cat;
+    const isEmpty = input.value.trim() === "";
+    const val = parseFloat(input.value) || 0;
+    if (!data.categoryBudgets) data.categoryBudgets = {};
+
+    if (isEmpty) {
+        delete data.categoryBudgets[cat];
+    } else if (val === 0) {
+        delete data.categoryBudgets[cat];
+    } else {
+        data.categoryBudgets[cat] = val;
+    }
+
+    saveData();
+    renderMonthlyInsights();
 }
 
 function showBudgetHint(input) {
@@ -3286,7 +3304,7 @@ function renderMonthlyNotes() {
             <div class="monthly-notes-pin">📌</div>
             <div class="monthly-notes-title">This month's thoughts · ${monthName} ${year}</div>
             <div class="monthly-notes-line">
-                <textarea class="monthly-notes-textarea" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';saveMonthlyNote(this, '${key}')">${saved}</textarea>
+                <textarea class="monthly-notes-textarea" oninput="saveMonthlyNote(this, '${key}')">${saved}</textarea>
             </div>
             <div class="monthly-notes-footer" id="notes-saved-${key}"></div>
         </div>`;
@@ -3305,7 +3323,7 @@ function renderYearlyNotes() {
             <div class="monthly-notes-pin">📌</div>
             <div class="monthly-notes-title">This year's thoughts · ${year}</div>
             <div class="monthly-notes-line">
-                <textarea class="monthly-notes-textarea" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';saveYearlyNote(this, '${key}')">${saved}</textarea>
+                <textarea class="monthly-notes-textarea" oninput="saveYearlyNote(this, '${key}')">${saved}</textarea>
             </div>
             <div class="monthly-notes-footer" id="notes-saved-${key}"></div>
         </div>`;
@@ -3334,8 +3352,15 @@ function saveAllBudget(input) {
     clearTimeout(_budgetSaveTimer);
     _budgetSaveTimer = setTimeout(() => {
         saveData();
-        renderMonthlyInsights();
     }, 800);
+}
+
+function saveAllBudgetOnBlur(input) {
+    clearTimeout(_budgetSaveTimer);
+    const val = parseFloat(input.value) || 0;
+    data.totalBudget = val;
+    saveData();
+    renderMonthlyInsights();
 }
 
 function showBudgetWarning(msg) {

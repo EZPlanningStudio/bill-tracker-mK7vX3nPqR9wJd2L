@@ -2924,7 +2924,7 @@ function renderSummaryCard(catColors, monthBills, month, year) {
                         <input class="mi-budget-input" type="number" placeholder="${grandBudget > 0 ? grandBudget.toFixed(2) : '—'}"
                             style="color:${data.totalBudget > 0 ? 'var(--peach-text)' : 'var(--muted)'};border-color:var(--peach);"
                             value="${data.totalBudget > 0 ? data.totalBudget.toFixed(2) : ''}"
-                            oninput="saveAllBudget(this)" onblur="saveAllBudgetOnBlur(this)"
+                            oninput="saveAllBudget(this)" onblur="saveAllBudgetOnBlur(this)" autocomplete="off"
             onfocus="showBudgetHint(this)"
             oninput="showBudgetHint(this)"
             onblur="hideBudgetHint(this)">
@@ -3172,7 +3172,7 @@ function renderCategoryCard(cat, color, monthBills, month, year, overdraftAmount
                             style="color:${color.inputColor};border-color:${color.border};"
                             value="${budget ? budget.toFixed(2) : ""}"
                             data-cat="${cat}"
-                            oninput="saveCategoryBudget(this)" onblur="saveCategoryBudgetOnBlur(this)"
+                            oninput="saveCategoryBudget(this)" onblur="saveCategoryBudgetOnBlur(this)" autocomplete="off"
                             onfocus="showBudgetHint(this)"
                             oninput="showBudgetHint(this)"
                             onblur="hideBudgetHint(this)">

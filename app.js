@@ -1255,7 +1255,7 @@ function setRainbowTitle(text, secondaryWord = null) {
 }
 
 function openAddBillModal() {
-    if (!isActivated() && data.bills.length >= 2) {
+    if (!isActivated() && new Set(data.bills.map(b => b.seriesId)).size >= 2) {
         showActivationModal();
         return;
     }
@@ -1346,7 +1346,7 @@ function updateSectionLabel(section) {
 function showSection(section) {
     if (section === "add") {
         resetForm();
-        if (!isActivated() && data.bills.length >= 2) {
+        if (!isActivated() && new Set(data.bills.map(b => b.seriesId)).size >= 2) {
             showActivationModal();
         } else {
             openAddBillModal();
@@ -1694,7 +1694,7 @@ function handleSaveBill(event) {
             data.bills = data.bills.map(b => b.id === bill.id ? bill : b);
         }
     } else {
-        if (!isActivated() && data.bills.length >= 2) {
+        if (!isActivated() && new Set(data.bills.map(b => b.seriesId)).size >= 2) {
             closeAddBillModal();
             showActivationModal();
             return;

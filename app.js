@@ -1372,6 +1372,7 @@ function showSection(section) {
 
     if (section === "monthly") {
         renderMonthlyInsights();
+        renderMonthlyNotes();
     }
 
     if (section === "yearly") {

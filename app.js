@@ -272,7 +272,8 @@ window.addEventListener("scroll", () => {
 function init() {
     renderMiniCalendar();
     const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    if (isMobile) {
+    const isOnline = window.location.protocol === "https:";
+    if (isMobile || isOnline) {
         const autoBackup = document.getElementById("autoBackupSection");
         if (autoBackup) autoBackup.style.display = "none";
     }

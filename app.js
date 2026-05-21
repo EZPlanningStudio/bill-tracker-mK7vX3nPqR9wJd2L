@@ -3283,7 +3283,7 @@ function renderMonthlyNotes() {
             <div class="monthly-notes-pin">📌</div>
             <div class="monthly-notes-title">This month's thoughts · ${monthName} ${year}</div>
             <div class="monthly-notes-line">
-                <textarea class="monthly-notes-textarea" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'" onblur="saveMonthlyNote(this, '${key}')">${saved}</textarea>
+                <textarea class="monthly-notes-textarea" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';saveMonthlyNote(this, '${key}')">${saved}</textarea>
             </div>
             <div class="monthly-notes-footer" id="notes-saved-${key}"></div>
         </div>`;
@@ -3302,7 +3302,7 @@ function renderYearlyNotes() {
             <div class="monthly-notes-pin">📌</div>
             <div class="monthly-notes-title">This year's thoughts · ${year}</div>
             <div class="monthly-notes-line">
-                <textarea class="monthly-notes-textarea" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'" onblur="saveYearlyNote(this, '${key}')">${saved}</textarea>
+                <textarea class="monthly-notes-textarea" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';saveYearlyNote(this, '${key}')">${saved}</textarea>
             </div>
             <div class="monthly-notes-footer" id="notes-saved-${key}"></div>
         </div>`;
@@ -3310,10 +3310,12 @@ function renderYearlyNotes() {
     if (ta) setTimeout(() => { ta.style.height = "auto"; ta.style.height = ta.scrollHeight + "px"; }, 0);
 }
 
+let _notesSaveTimer = null;
 function saveYearlyNote(textarea, key) {
     if (!data.monthlyNotes) data.monthlyNotes = {};
     data.monthlyNotes[key] = textarea.value;
-    saveData();
+    clearTimeout(_notesSaveTimer);
+    _notesSaveTimer = setTimeout(() => saveData(), 1000);
 }
 
 function saveMonthlyNote(textarea, key) {

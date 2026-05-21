@@ -216,7 +216,11 @@ function extendRecurringSeries() {
 }
 
 let resizeTimer;
+let lastWindowWidth = window.innerWidth;
 window.addEventListener("resize", () => {
+    const newWidth = window.innerWidth;
+    if (newWidth === lastWindowWidth) return;
+    lastWindowWidth = newWidth;
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
         renderAll();

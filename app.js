@@ -1343,7 +1343,11 @@ function updateSectionLabel(section) {
 function showSection(section) {
     if (section === "add") {
         resetForm();
-        openAddBillModal();
+        if (!isActivated() && data.bills.length >= 2) {
+            showActivationModal();
+        } else {
+            openAddBillModal();
+        }
         return;
     }
 
@@ -1687,14 +1691,12 @@ function handleSaveBill(event) {
             data.bills = data.bills.map(b => b.id === bill.id ? bill : b);
         }
     } else {
-        if (!isActivated()) {
-            const uniqueSeries = new Set(data.bills.map(b => b.seriesId));
-            if (uniqueSeries.size >= 2) {
-                closeAddBillModal();
-                showActivationModal();
-                return;
-            }
+        if (!isActivated() && data.bills.length >= 2) {
+            closeAddBillModal();
+            showActivationModal();
+            return;
         }
+
         if (bill.frequency === "one-time") {
             data.bills.push(bill);
         } else {

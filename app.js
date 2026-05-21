@@ -2527,11 +2527,8 @@ function toggleCalDrawer(forceState) {
         panel.classList.remove("expanded");
         panel.style.maxHeight = "";
         if (billsEl) {
-            const billsTop = billsEl.getBoundingClientRect().top;
-            const availableBillsHeight = window.innerHeight - billsTop;
-
-            billsEl.style.maxHeight = availableBillsHeight + "px";
-            billsEl.style.overflowY = "auto";
+            billsEl.style.maxHeight = "";
+            billsEl.style.overflowY = "";
         }
         if (overlay) overlay.classList.remove("active");
         return;

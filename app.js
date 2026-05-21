@@ -33,7 +33,7 @@ const defaultData = {
     bills: [],
     customCurrencies: [],
     billNameGroups: [],
-    priorityNames: ["Urgent", "High", "Medium", "Low", "Optional"],
+    priorityNames: ["Critical", "High", "Medium", "Low", "Optional"],
     categoryBudgets: {}
 };
 

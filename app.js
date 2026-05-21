@@ -3217,6 +3217,7 @@ function renderCategoryCard(cat, color, monthBills, month, year, overdraftAmount
         </div>`;
 }
 
+let _budgetSaveTimer = null;
 function saveCategoryBudget(input) {
     const cat = input.dataset.cat;
     const isEmpty = input.value.trim() === "";
@@ -3231,13 +3232,11 @@ function saveCategoryBudget(input) {
         data.categoryBudgets[cat] = val;
     }
 
-    saveData();
-    renderMonthlyInsights();
-    const updatedInput = document.querySelector(`.mi-budget-input[data-cat="${cat}"]`);
-    if (updatedInput) {
-        const saved = data.categoryBudgets[cat];
-        updatedInput.value = saved !== undefined ? saved.toFixed(2) : "";
-    }
+    clearTimeout(_budgetSaveTimer);
+    _budgetSaveTimer = setTimeout(() => {
+        saveData();
+        renderMonthlyInsights();
+    }, 800);
 }
 
 function showBudgetHint(input) {
@@ -3321,14 +3320,18 @@ function saveYearlyNote(textarea, key) {
 function saveMonthlyNote(textarea, key) {
     if (!data.monthlyNotes) data.monthlyNotes = {};
     data.monthlyNotes[key] = textarea.value;
-    saveData();
+    clearTimeout(_notesSaveTimer);
+    _notesSaveTimer = setTimeout(() => saveData(), 1000);
 }
 
 function saveAllBudget(input) {
     const val = parseFloat(input.value) || 0;
     data.totalBudget = val;
-    saveData();
-    renderMonthlyInsights();
+    clearTimeout(_budgetSaveTimer);
+    _budgetSaveTimer = setTimeout(() => {
+        saveData();
+        renderMonthlyInsights();
+    }, 800);
 }
 
 function showBudgetWarning(msg) {

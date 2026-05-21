@@ -1505,6 +1505,35 @@ function generateRecurringBills(bill) {
     return bills;
 }
 
+function isActivated() {
+    return localStorage.getItem("billTrackerActivated") === "true";
+}
+
+function showActivationModal() {
+    document.getElementById("activationModal").classList.add("active");
+}
+
+function closeActivationModal() {
+    document.getElementById("activationModal").classList.remove("active");
+}
+
+function submitActivationCode() {
+    const input = document.getElementById("activationCodeInput");
+    const error = document.getElementById("activationError");
+    const code = input.value.trim();
+    if (code === "ui4GMBVpIDnv") {
+        localStorage.setItem("billTrackerActivated", "true");
+        closeActivationModal();
+    } else {
+        error.style.display = "block";
+        input.value = "";
+        input.focus();
+    }
+}
+
+window.closeActivationModal = closeActivationModal;
+window.submitActivationCode = submitActivationCode;
+
 function handleSaveBill(event) {
     event.preventDefault();
 
@@ -1654,6 +1683,14 @@ function handleSaveBill(event) {
             data.bills = data.bills.map(b => b.id === bill.id ? bill : b);
         }
     } else {
+        if (!isActivated()) {
+            const uniqueSeries = new Set(data.bills.map(b => b.seriesId));
+            if (uniqueSeries.size >= 2) {
+                closeAddBillModal();
+                showActivationModal();
+                return;
+            }
+        }
         if (bill.frequency === "one-time") {
             data.bills.push(bill);
         } else {

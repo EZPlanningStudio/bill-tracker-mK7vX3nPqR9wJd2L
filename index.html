@@ -990,11 +990,29 @@
 
   <script src="app.js"></script>
 
-  <!-- <script>
+  <script>
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('service-worker.js');
   }
-</script> -->
+</script>
+
+<div class="modal-overlay" id="activationModal">
+    <div class="modal-box" style="max-width:400px;">
+        <div class="modal-header">
+            <span>🔓 Unlock Full Version</span>
+        </div>
+        <div class="modal-body">
+            <p style="margin-bottom:16px; color:var(--muted); font-size:14px;">You've reached the 2-bill limit of the demo. Enter your activation code to unlock unlimited bills.</p>
+            <input id="activationCodeInput" type="text" class="form-input" placeholder="Enter activation code" autocomplete="off" style="width:100%; margin-bottom:8px;">
+            <div id="activationError" style="display:none; color:var(--red); font-size:13px; margin-bottom:8px;">Invalid code. Please try again.</div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn soft" onclick="closeActivationModal()">Cancel</button>
+            <button class="btn primary" onclick="submitActivationCode()">Activate</button>
+        </div>
+    </div>
+</div>
+
 
 </body>
 

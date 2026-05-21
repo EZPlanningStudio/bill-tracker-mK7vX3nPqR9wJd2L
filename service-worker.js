@@ -1,8 +1,6 @@
 const CACHE_NAME = 'bill-tracker-v3';
 const FILES_TO_CACHE = [
-  '.',
-  'index.html',
-  'icon-512.png'
+  
 ];
 
 self.addEventListener('install', event => {

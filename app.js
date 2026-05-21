@@ -2537,7 +2537,7 @@ function toggleCalDrawer(forceState) {
         return;
     }
 
-    const needsExpand = hasBills && billsEl && billsEl.scrollHeight > billsEl.clientHeight;
+    const needsExpand = hasBills;
 
     if (!needsExpand && forceState !== true) return;
     panel.classList.add("expanded");

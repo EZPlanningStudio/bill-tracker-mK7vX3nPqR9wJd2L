@@ -5318,7 +5318,7 @@
            border-radius: 20px 20px 0 0;
            border-top: none;
            margin-top: 0;
-           max-height: calc(100vh - 20px);
+           max-height: calc(100svh - 20px);
            display: flex;
            flex-direction: column;
            overflow: hidden;

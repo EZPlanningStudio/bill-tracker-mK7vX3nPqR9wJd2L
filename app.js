@@ -944,12 +944,12 @@ function bindEvents() {
 
     document.getElementById("updateThisOnly").addEventListener("click", () => {
         window._updateMode = "this";
-        handleSaveBill({ preventDefault: () => {} });
+        handleSaveBill({ preventDefault: () => { } });
     });
 
     document.getElementById("updateFromHere").addEventListener("click", () => {
         window._updateMode = "fromHere";
-        handleSaveBill({ preventDefault: () => {} });
+        handleSaveBill({ preventDefault: () => { } });
     });
 
     document.getElementById("cancelDeleteRecurring").addEventListener("click", closeDeleteModal);
@@ -1147,7 +1147,7 @@ function initInsightsYearDropdown() {
     if (!yearCaretEl) return;
     menu.style.maxHeight = "";
     const rect = yearCaretEl.getBoundingClientRect();
-   menu.style.top = `${rect.bottom + 8}px`;
+    menu.style.top = `${rect.bottom + 8}px`;
     menu.style.left = `${rect.left - 60}px`;
     menu.style.display = "flex";
     menu.style.flexDirection = "column";
@@ -2860,11 +2860,11 @@ function renderMonthlyInsights() {
     });
 
     const catColors = [
-        { main: "#77dddb", shades: ["#4ecece","#77dddb","#9de8e7","#b8efee","#cdf4f3","#dff8f8"], soft: "var(--mint-soft-2)", soft3: "var(--mint-soft-3)", tableBg: "rgba(116, 255, 253, 0.06)", text: "var(--mint-text)", border: "#9ce4e3", inputColor: "var(--mint-dark, #025e5e)" },
-        { main: "#d299dc", shades: ["#c285d0","#d299dc","#ddb0e8","#eaccf2","#f5e5f9","#faf0fc"], soft: "var(--purple-soft-2)", soft3: "var(--purple-soft-3)", tableBg: "rgba(210,153,220,0.06)", text: "var(--purple-text)", border: "#ddb0e8", inputColor: "var(--purple-text)" },
-        { main: "#ffcf5f", shades: ["#f0b830","#ffcf5f","#ffe08a","#ffedb3","#fff7d9","#fffdf0"], soft: "var(--yellow-soft-2)", soft3: "var(--yellow-soft-3)", tableBg: "rgba(255,207,95,0.06)", text: "var(--yellow-text)", border: "#ffe08a", inputColor: "var(--yellow-text)" },
-        { main: "#fea969", shades: ["#f08848","#fea969","#ffc090","#ffd4b5","#ffeada","#fff5ee"], soft: "var(--orange-soft-2)", soft3: "var(--orange-soft-3)", tableBg: "rgba(254,169,105,0.06)", text: "var(--orange-text)", border: "#ffd0a0", inputColor: "var(--orange-text)" },
-        { main: "#fe7aa7", shades: ["#f06090","#fe7aa7","#ffaac8","#ffcbde","#ffe5ef","#fff5f8"], soft: "var(--pink-soft-2)", soft3: "var(--pink-soft-3)", tableBg: "rgba(254,122,167,0.06)", text: "var(--pink-text)", border: "#ffb0cc", inputColor: "var(--pink-text)" }
+        { main: "#77dddb", shades: ["#4ecece", "#77dddb", "#9de8e7", "#b8efee", "#cdf4f3", "#dff8f8"], soft: "var(--mint-soft-2)", soft3: "var(--mint-soft-3)", tableBg: "rgba(116, 255, 253, 0.06)", text: "var(--mint-text)", border: "#9ce4e3", inputColor: "var(--mint-dark, #025e5e)" },
+        { main: "#d299dc", shades: ["#c285d0", "#d299dc", "#ddb0e8", "#eaccf2", "#f5e5f9", "#faf0fc"], soft: "var(--purple-soft-2)", soft3: "var(--purple-soft-3)", tableBg: "rgba(210,153,220,0.06)", text: "var(--purple-text)", border: "#ddb0e8", inputColor: "var(--purple-text)" },
+        { main: "#ffcf5f", shades: ["#f0b830", "#ffcf5f", "#ffe08a", "#ffedb3", "#fff7d9", "#fffdf0"], soft: "var(--yellow-soft-2)", soft3: "var(--yellow-soft-3)", tableBg: "rgba(255,207,95,0.06)", text: "var(--yellow-text)", border: "#ffe08a", inputColor: "var(--yellow-text)" },
+        { main: "#fea969", shades: ["#f08848", "#fea969", "#ffc090", "#ffd4b5", "#ffeada", "#fff5ee"], soft: "var(--orange-soft-2)", soft3: "var(--orange-soft-3)", tableBg: "rgba(254,169,105,0.06)", text: "var(--orange-text)", border: "#ffd0a0", inputColor: "var(--orange-text)" },
+        { main: "#fe7aa7", shades: ["#f06090", "#fe7aa7", "#ffaac8", "#ffcbde", "#ffe5ef", "#fff5f8"], soft: "var(--pink-soft-2)", soft3: "var(--pink-soft-3)", tableBg: "rgba(254,122,167,0.06)", text: "var(--pink-text)", border: "#ffb0cc", inputColor: "var(--pink-text)" }
     ];
 
 
@@ -2982,19 +2982,19 @@ function renderSummaryCard(catColors, monthBills, month, year) {
                 </div>
             <div style="background:#fff;padding:10px 10px 4px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
                 ${(() => {
-                    const maxVal = Math.max(...catData.map(c => Math.max(c.totalExp, c.totalPaid)), 1);
-                    return catData.map(({ cat, color, totalExp, totalPaid }) => {
-                        const expW = Math.min((totalExp / maxVal) * 100, 100).toFixed(1);
-                        const paidW = Math.min((totalPaid / maxVal) * 100, 100).toFixed(1);
-                        return `<div class="mi-bar-duo-group">
+            const maxVal = Math.max(...catData.map(c => Math.max(c.totalExp, c.totalPaid)), 1);
+            return catData.map(({ cat, color, totalExp, totalPaid }) => {
+                const expW = Math.min((totalExp / maxVal) * 100, 100).toFixed(1);
+                const paidW = Math.min((totalPaid / maxVal) * 100, 100).toFixed(1);
+                return `<div class="mi-bar-duo-group">
                             <div class="mi-bar-duo-label" style="color:${color.text};">${cat}</div>
                             <div class="mi-bar-duo-bars">
                                 <div class="mi-bar-duo-row"><div class="mi-bar-duo" style="width:${expW}%;background:#ccc;"></div></div>
                                 <div class="mi-bar-duo-row"><div class="mi-bar-duo" style="width:${paidW}%;background:${color.main};"></div></div>
                             </div>
                         </div>`;
-                    }).join('');
-                })()}
+            }).join('');
+        })()}
                 <div class="mi-bar-duo-legend">
                     <span><span class="mi-bar-duo-dot" style="background:#ccc;"></span>Expected</span>
                     <span><span class="mi-bar-duo-dot" style="background:var(--peach);"></span>Paid</span>
@@ -3061,8 +3061,8 @@ function renderCategoryCard(cat, color, monthBills, month, year, overdraftAmount
     });
 
     const GAP = 1.5;
-    const greyShades = ["#b0b0b0","#c0c0c0","#d0d0d0","#dedede","#ebebeb","#f5f5f5","#fafafa"];
-    const overdueShades = ["#ff8888","#ff9999","#ffaaaa","#ffbbbb","#ffcccc","#ffdede","#ffeeee"];
+    const greyShades = ["#b0b0b0", "#c0c0c0", "#d0d0d0", "#dedede", "#ebebeb", "#f5f5f5", "#fafafa"];
+    const overdueShades = ["#ff8888", "#ff9999", "#ffaaaa", "#ffbbbb", "#ffcccc", "#ffdede", "#ffeeee"];
 
     if (payments.length === 0) {
         donutSegments = `<circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="#e0e0e0" stroke-width="${SW}"/>`;
@@ -3117,7 +3117,7 @@ function renderCategoryCard(cat, color, monthBills, month, year, overdraftAmount
                 const lx = (CX + R * Math.cos(midAngle)).toFixed(1);
                 const ly = (CY + R * Math.sin(midAngle)).toFixed(1);
                 if (billPct >= 6) {
-                    const labelColor = "#666" ; status === "overdue" ? "#cc0000" : isOthers ? (shade === color.shades[5] ? "#037c7c" : shade === overdueShades[6] ? "#cc0000" : "#888") : "#888";
+                    const labelColor = "#666"; status === "overdue" ? "#cc0000" : isOthers ? (shade === color.shades[5] ? "#037c7c" : shade === overdueShades[6] ? "#cc0000" : "#888") : "#888";
                     donutSegments += `<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="600" fill="${labelColor}">${billPct}%</text>`;
                 }
 
@@ -3436,12 +3436,12 @@ function renderYearlySummary() {
         return d.getFullYear() === year;
     });
 
-     const catColors = [
-        { main: "#77dddb", shades: ["#4ecece","#77dddb","#9de8e7","#b8efee","#cdf4f3","#dff8f8"], soft: "var(--mint-soft-2)", soft3: "var(--mint-soft-3)", tableBg: "rgba(116, 255, 253, 0.06)", text: "var(--mint-text)", border: "#9ce4e3", inputColor: "var(--mint-dark, #025e5e)" },
-        { main: "#d299dc", shades: ["#c285d0","#d299dc","#ddb0e8","#eaccf2","#f5e5f9","#faf0fc"], soft: "var(--purple-soft-2)", soft3: "var(--purple-soft-3)", tableBg: "rgba(210,153,220,0.06)", text: "var(--purple-text)", border: "#ddb0e8", inputColor: "var(--purple-text)" },
-        { main: "#ffcf5f", shades: ["#f0b830","#ffcf5f","#ffe08a","#ffedb3","#fff7d9","#fffdf0"], soft: "var(--yellow-soft-2)", soft3: "var(--yellow-soft-3)", tableBg: "rgba(255,207,95,0.06)", text: "var(--yellow-text)", border: "#ffe08a", inputColor: "var(--yellow-text)" },
-        { main: "#fea969", shades: ["#f08848","#fea969","#ffc090","#ffd4b5","#ffeada","#fff5ee"], soft: "var(--orange-soft-2)", soft3: "var(--orange-soft-3)", tableBg: "rgba(254,169,105,0.06)", text: "var(--orange-text)", border: "#ffd0a0", inputColor: "var(--orange-text)" },
-        { main: "#fe7aa7", shades: ["#f06090","#fe7aa7","#ffaac8","#ffcbde","#ffe5ef","#fff5f8"], soft: "var(--pink-soft-2)", soft3: "var(--pink-soft-3)", tableBg: "rgba(254,122,167,0.06)", text: "var(--pink-text)", border: "#ffb0cc", inputColor: "var(--pink-text)" }
+    const catColors = [
+        { main: "#77dddb", shades: ["#4ecece", "#77dddb", "#9de8e7", "#b8efee", "#cdf4f3", "#dff8f8"], soft: "var(--mint-soft-2)", soft3: "var(--mint-soft-3)", tableBg: "rgba(116, 255, 253, 0.06)", text: "var(--mint-text)", border: "#9ce4e3", inputColor: "var(--mint-dark, #025e5e)" },
+        { main: "#d299dc", shades: ["#c285d0", "#d299dc", "#ddb0e8", "#eaccf2", "#f5e5f9", "#faf0fc"], soft: "var(--purple-soft-2)", soft3: "var(--purple-soft-3)", tableBg: "rgba(210,153,220,0.06)", text: "var(--purple-text)", border: "#ddb0e8", inputColor: "var(--purple-text)" },
+        { main: "#ffcf5f", shades: ["#f0b830", "#ffcf5f", "#ffe08a", "#ffedb3", "#fff7d9", "#fffdf0"], soft: "var(--yellow-soft-2)", soft3: "var(--yellow-soft-3)", tableBg: "rgba(255,207,95,0.06)", text: "var(--yellow-text)", border: "#ffe08a", inputColor: "var(--yellow-text)" },
+        { main: "#fea969", shades: ["#f08848", "#fea969", "#ffc090", "#ffd4b5", "#ffeada", "#fff5ee"], soft: "var(--orange-soft-2)", soft3: "var(--orange-soft-3)", tableBg: "rgba(254,169,105,0.06)", text: "var(--orange-text)", border: "#ffd0a0", inputColor: "var(--orange-text)" },
+        { main: "#fe7aa7", shades: ["#f06090", "#fe7aa7", "#ffaac8", "#ffcbde", "#ffe5ef", "#fff5f8"], soft: "var(--pink-soft-2)", soft3: "var(--pink-soft-3)", tableBg: "rgba(254,122,167,0.06)", text: "var(--pink-text)", border: "#ffb0cc", inputColor: "var(--pink-text)" }
     ];
 
     if (!yearBills.length) {
@@ -3452,7 +3452,7 @@ function renderYearlySummary() {
 
     renderYearlyNotes();
 
-    const monthsShort = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const monthsShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
     el.className = "";
 
@@ -3542,19 +3542,19 @@ function renderYearlySummaryCard(catColors, yearBills, year) {
             <div style="background:#fff;padding:12px 10px 8px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
                 <div class="mi-bar-chart-title">EXPECTED VS PAID BY CATEGORY IN ${year}</div>
                 ${(() => {
-                    const maxVal = Math.max(...catData.map(c => Math.max(c.totalExp, c.totalPaid)), 1);
-                    return catData.map(({ cat, color, totalExp, totalPaid }) => {
-                        const expW = Math.min((totalExp / maxVal) * 100, 100).toFixed(1);
-                        const paidW = Math.min((totalPaid / maxVal) * 100, 100).toFixed(1);
-                        return `<div class="mi-bar-duo-group">
+            const maxVal = Math.max(...catData.map(c => Math.max(c.totalExp, c.totalPaid)), 1);
+            return catData.map(({ cat, color, totalExp, totalPaid }) => {
+                const expW = Math.min((totalExp / maxVal) * 100, 100).toFixed(1);
+                const paidW = Math.min((totalPaid / maxVal) * 100, 100).toFixed(1);
+                return `<div class="mi-bar-duo-group">
                             <div class="mi-bar-duo-label" style="color:${color.text};">${cat}</div>
                             <div class="mi-bar-duo-bars">
                                 <div class="mi-bar-duo-row"><div class="mi-bar-duo" style="width:${expW}%;background:#ccc;"></div></div>
                                 <div class="mi-bar-duo-row"><div class="mi-bar-duo" style="width:${paidW}%;background:${color.main};"></div></div>
                             </div>
                         </div>`;
-                    }).join('');
-                })()}
+            }).join('');
+        })()}
                 <div class="mi-bar-duo-legend yearly-bar-duo-legend">
                     <span><span class="mi-bar-duo-dot" style="background:#ccc;"></span>Expected</span>
                     <span><span class="mi-bar-duo-dot" style="background:var(--peach);"></span>Paid</span>
@@ -3566,10 +3566,10 @@ function renderYearlySummaryCard(catColors, yearBills, year) {
                 </div>
                 <div style="font-size:13px;font-weight:800;color:${grandPaid > grandExp ? 'var(--red)' : 'var(--priority-4-color)'};">
                     ${grandPaid > grandExp
-                        ? `${Math.round(((grandPaid - grandExp) / grandExp) * 100)}% over planned`
-                        : grandPaid < grandExp
-                            ? `${Math.round(((grandExp - grandPaid) / grandExp) * 100)}% under planned ✓`
-                            : `on target ✓`}
+            ? `${Math.round(((grandPaid - grandExp) / grandExp) * 100)}% over planned`
+            : grandPaid < grandExp
+                ? `${Math.round(((grandExp - grandPaid) / grandExp) * 100)}% under planned ✓`
+                : `on target ✓`}
                 </div>
             </div>
             <div class="mi-donut-section">
@@ -3628,7 +3628,7 @@ function renderYearlyTop5Card(catColors, yearBills, year) {
     const grandExp = top5.reduce((s, g) => s + g.totalExp, 0);
 
     // Donut
-    const peachShades = ["#fab8be","#ffc5cb","#ffd4d8","#ffe5e8","#fff0f2"];
+    const peachShades = ["#fab8be", "#ffc5cb", "#ffd4d8", "#ffe5e8", "#fff0f2"];
     let donutSegments = "", legendItems = "", offset = 0;
     const totalNet = grandPaid;
 
@@ -3724,8 +3724,8 @@ function renderYearlyTop5Card(catColors, yearBills, year) {
 
 function renderYearlyMonthlyCard(cat, color, yearBills, year) {
     const catBills = yearBills.filter(b => b.category === cat && b.type !== "refund");
-    const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    const monthsShort = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const monthsShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
     const monthData = monthNames.map((name, i) => {
         const mBills = catBills.filter(b => parseLocalDate(b.dueDate).getMonth() === i);
@@ -3752,7 +3752,7 @@ function renderYearlyMonthlyCard(cat, color, yearBills, year) {
     for (let t = 0; t <= tickCount; t++) {
         const val = tickStep * t;
         const y = PT + chartH - (val / maxVal) * chartH;
-        const label = val >= 1000 ? "$" + (val/1000).toFixed(1) + "k" : "$" + Math.round(val);
+        const label = val >= 1000 ? "$" + (val / 1000).toFixed(1) + "k" : "$" + Math.round(val);
         yTicks += `<line x1="${PL}" y1="${y.toFixed(1)}" x2="${W - PR}" y2="${y.toFixed(1)}" stroke="var(--line)" stroke-width="1"/>`;
         yTicks += `<text x="${PL - 3}" y="${y.toFixed(1)}" text-anchor="end" dominant-baseline="middle" font-size="9" fill="var(--muted)">${label}</text>`;
     }
@@ -3876,8 +3876,8 @@ function renderYearlyCategoryCard(cat, color, yearBills, year) {
     const GAP = 1.5;
     let donutSegments = "", legendItems = "", offset = 0;
 
-    const greyShades = ["#b0b0b0","#c0c0c0","#d0d0d0","#dedede","#ebebeb","#f5f5f5"];
-    const overdueShades = ["#ff8888","#ff9999","#ffaaaa","#ffbbbb","#ffcccc","#ffdede"];
+    const greyShades = ["#b0b0b0", "#c0c0c0", "#d0d0d0", "#dedede", "#ebebeb", "#f5f5f5"];
+    const overdueShades = ["#ff8888", "#ff9999", "#ffaaaa", "#ffbbbb", "#ffcccc", "#ffdede"];
 
     // Donut arată doar paid amounts
     const paidGroups = groupList.filter(g => g.totalPaid > 0).sort((a, b) => b.totalPaid - a.totalPaid);
@@ -4536,7 +4536,9 @@ async function autoSaveToBackup() {
 
         const appName = document.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
         const fileName = `${appName || "bill-tracker"}-backup.json`;
-        const json = JSON.stringify(data, null, 2);
+        const activated = localStorage.getItem("billTrackerActivated");
+        const exportData = activated ? { ...data, _activated: true } : data;
+        const json = JSON.stringify(exportData, null, 2);
         const blob = new Blob([json], { type: "application/json" });
 
         const fileHandle = await directoryHandle.getFileHandle(fileName, { create: true });
@@ -4664,6 +4666,10 @@ function importJson(event) {
             if (!imported || typeof imported !== "object") {
                 alert("Invalid backup file.");
                 return;
+            }
+
+            if (imported._activated) {
+                localStorage.setItem("billTrackerActivated", "true");
             }
 
             data = normalizeAppData(imported);

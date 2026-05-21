@@ -1255,6 +1255,13 @@ function setRainbowTitle(text, secondaryWord = null) {
 }
 
 function openAddBillModal() {
+    if (!isActivated()) {
+        const uniqueSeries = new Set(data.bills.map(b => b.seriesId));
+        if (uniqueSeries.size >= 2) {
+            showActivationModal();
+            return;
+        }
+    }
     document.getElementById("addBillModal").classList.add("active");
     updateCurrencyInputDisplay();
     document.activeElement?.blur();

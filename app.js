@@ -4377,8 +4377,6 @@ async function clearBackupDirectoryHandle() {
 }
 
 async function showWelcomeBackupReminder() {
-    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    if (isMobile) return;
 
     const hasOpenedBefore = localStorage.getItem("hasOpenedBefore");
     const shownThisSession = sessionStorage.getItem("welcomeBackupShownThisSession");
@@ -4648,8 +4646,6 @@ async function exportJson() {
 }
 
 window.addEventListener("beforeunload", (e) => {
-    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    if (isMobile) return;
 
     if (!backupDirty) return;
 

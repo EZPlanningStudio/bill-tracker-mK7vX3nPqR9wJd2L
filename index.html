@@ -867,24 +867,10 @@
       <section id="section-backup" class="section">
         <div class="panel">
           <h2><span class="help-icon" data-help-title="How Backup Works"
-              data-help="<p>Your data is stored <strong>only in this browser</strong> on this device — not in the cloud.</p><p><strong>⚡ Automatic backup (Chrome &amp; Edge only):</strong><br>Choose a Backup Location once. After that, every change you make is saved automatically to that folder — no action needed.</p><p><strong>🔒 To keep your data safe in other browsers (Safari, Firefox &amp; others):</strong><br>If you are using other browsers, your data cannot be backed up or restored automatically like in Chrome or Edge — the chosen location will not work.<br><br><span style='background:var(--peach-soft);padding:6px 10px;border-radius:8px;display:inline-block;'>Export a JSON backup regularly — preferably after every use and restore before every use, especially before clearing browser data, changing browsers, reinstalling the browser, or moving to another device.</span></p><p><strong>📥 Restoring your data:</strong><br>If you lose your data, use <strong>Import JSON Backup</strong> to restore from your last backup file.</p><p style='background:var(--yellow-soft);padding:10px 14px;border-radius:10px;font-size:13px;'>💡 <strong>Tip:</strong> For the safest experience, use Google Chrome or Microsoft Edge and set a Backup Location.</p>"
+              data-help="<p>Your data is stored <strong>only in this browser</strong> on this device — not in the cloud.</p><p><strong>💾 Export JSON Backup:</strong><br>Save a copy of all your data as a JSON file. Do this regularly to keep your data safe.</p><p><strong>📥 Import JSON Backup:</strong><br>Restore your data from a previously exported JSON file.</p><p><strong>📊 Export CSV:</strong><br>Export your bills as a spreadsheet for use in Excel or Google Sheets.</p><p style='background:var(--yellow-soft);padding:10px 14px;border-radius:10px;font-size:13px;'>💡 <strong>Tip:</strong> For the safest experience — export a backup every time you finish using the app, and import it when you open it again. This ensures your data is always up to date, especially if you use the app on multiple devices or browsers.</p>"
               style="cursor:pointer; margin-right:6px;">💾</span>Backup & restore your data</h2>
 
           <div class="backup-grid">
-
-            <div class="backup-file-display" id="backupFileName">
-              No backup folder selected. Choose a backup location.
-            </div>
-
-            <div class="backup-location-actions">
-              <button class="btn peach" id="changeBackupLocation" onclick="chooseBackupDirectory()">
-                Choose Backup Location
-              </button>
-
-              <button class="btn orange" id="removeBackupLocation" onclick="removeBackupLocation()">
-                Remove Backup Location
-              </button>
-            </div>
 
             <button class="btn secondary" id="exportJson">
               Export JSON Backup
@@ -905,6 +891,27 @@
             </button>
 
           </div>
+
+          <div id="autoBackupSection">
+            <h2 style="margin-top:24px;"><span class="help-icon" data-help-title="How Automatic Backup Works" data-help="<p>Automatic backup saves your data to a folder on your computer every time you make a change — no action needed.</p><p><strong>✅ Supported browsers:</strong> Google Chrome and Microsoft Edge on desktop.</p><p><strong>❌ Not supported:</strong> Safari, Firefox, or any mobile browser.</p><p><strong>How to set it up:</strong><br>Click <strong>Choose Backup Location</strong>, select a folder on your computer, and you're done. Every change is saved automatically from that point on.When you reopen the app, you'll be prompted to import the latest backup with one click.</p><p style='background:var(--yellow-soft);padding:10px 14px;border-radius:10px;font-size:13px;'>💡 <strong>Tip:</strong> Choose a folder that is synced to Google Drive or OneDrive for extra safety.</p>" style="cursor:pointer; margin-right:0px;">⚡</span>Automatic Backup</h2>
+            <p style="font-size:14px; color:var(--muted); margin-bottom:14px;">Available in <strong>Chrome</strong> and <strong>Edge</strong> on desktop. Choose a folder once — your data saves automatically after every change.</p>
+
+            <div class="backup-grid">
+              <div class="backup-file-display" id="backupFileName">
+                No backup folder selected. Choose a backup location.
+              </div>
+
+              <div class="backup-location-actions">
+                <button class="btn peach" id="changeBackupLocation" onclick="chooseBackupDirectory()">
+                  Choose Backup Location
+                </button>
+
+                <button class="btn orange" id="removeBackupLocation" onclick="removeBackupLocation()">
+                  Remove Backup Location
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -913,7 +920,7 @@
           <h2>✨ Welcome back</h2>
 
           <p>
-            Start with your latest backup and pick up right where you left off ✨
+            Start with your latest backup and pick up right where you left off
           </p>
 
           <div class="actions backup-reminder-actions">

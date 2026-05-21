@@ -271,6 +271,11 @@ window.addEventListener("scroll", () => {
 
 function init() {
     renderMiniCalendar();
+    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (isMobile) {
+        const autoBackup = document.getElementById("autoBackupSection");
+        if (autoBackup) autoBackup.style.display = "none";
+    }
     renderMiniCalendar("miniCalendarDesktop");
     // todayText is rendered dynamically - see renderSummaryCards
     renderCategoryOptions();
@@ -4371,6 +4376,9 @@ async function clearBackupDirectoryHandle() {
 }
 
 async function showWelcomeBackupReminder() {
+    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (isMobile) return;
+
     const hasOpenedBefore = localStorage.getItem("hasOpenedBefore");
     const shownThisSession = sessionStorage.getItem("welcomeBackupShownThisSession");
 
@@ -4382,7 +4390,6 @@ async function showWelcomeBackupReminder() {
     if (shownThisSession) return;
 
     const directoryHandle = await getBackupDirectoryHandle();
-    if (directoryHandle) return;
 
     sessionStorage.setItem("welcomeBackupShownThisSession", "true");
 
@@ -4639,11 +4646,11 @@ async function exportJson() {
     }
 }
 
-window.addEventListener("beforeunload", async (e) => {
-    if (!backupDirty) return;
+window.addEventListener("beforeunload", (e) => {
+    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (isMobile) return;
 
-    const directoryHandle = await getBackupDirectoryHandle();
-    if (directoryHandle) return;
+    if (!backupDirty) return;
 
     setTimeout(() => {
         document.getElementById("backupReminderModal").classList.add("active");

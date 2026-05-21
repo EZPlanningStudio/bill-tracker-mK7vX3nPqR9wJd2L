@@ -1526,6 +1526,9 @@ function showActivationModal() {
 
 function closeActivationModal() {
     document.getElementById("activationModal").classList.remove("active");
+    if (localStorage.getItem("activeSection") === "add") {
+        localStorage.setItem("activeSection", "list");
+    }
 }
 
 function submitActivationCode() {

@@ -1278,6 +1278,9 @@ function openAddBillWithDate(dateString) {
 function closeAddBillModal() {
     document.getElementById("addBillModal").classList.remove("active");
     resetForm();
+    if (localStorage.getItem("activeSection") === "add") {
+        localStorage.setItem("activeSection", "list");
+    }
 }
 
 const sectionConfig = {

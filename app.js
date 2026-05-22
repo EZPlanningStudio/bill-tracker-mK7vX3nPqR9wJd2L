@@ -4466,12 +4466,7 @@ async function chooseBackupDirectory() {
 }
 
 async function importLatestBackup() {
-    const appName = document.title
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "");
-
-    const fileName = `${appName || "bill-tracker"}-backup.json`;
+    const fileName = "bill-tracker-backup.json";
     const directoryHandle = await getBackupDirectoryHandle();
 
     if (!directoryHandle) {
@@ -4542,8 +4537,7 @@ async function autoSaveToBackup() {
         }
         if (permission !== "granted") return;
 
-        const appName = document.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-        const fileName = `${appName || "bill-tracker"}-backup.json`;
+        const fileName = "bill-tracker-backup.json";
         const activated = localStorage.getItem("billTrackerActivated");
         const exportData = activated ? { ...data, _activated: true } : data;
         const json = JSON.stringify(exportData, null, 2);
@@ -4561,12 +4555,7 @@ async function autoSaveToBackup() {
 }
 
 async function exportJson() {
-    const appName = document.title
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "");
-
-    const fileName = `${appName || "bill-tracker"}-backup.json`;
+    const fileName = "bill-tracker-backup.json";
     const json = JSON.stringify(data, null, 2);
     const blob = new Blob([json], { type: "application/json" });
 

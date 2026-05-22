@@ -1,4 +1,3 @@
-const APP_VERSION = "1.0";
 const STORAGE_KEY = "simpleBillTrackerDataV1";
 
 const defaultData = {

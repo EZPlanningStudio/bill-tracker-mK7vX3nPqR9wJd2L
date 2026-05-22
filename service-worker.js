@@ -1,4 +1,5 @@
-const CACHE_NAME = 'bill-tracker-v1.4';
+importScripts('version.js');
+const CACHE_NAME = `bill-tracker-v${APP_VERSION}`;
 const FILES_TO_CACHE = [
   '.',
   'index.html',

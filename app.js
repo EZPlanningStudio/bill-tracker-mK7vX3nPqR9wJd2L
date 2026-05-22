@@ -4466,7 +4466,7 @@ async function chooseBackupDirectory() {
 }
 
 async function importLatestBackup() {
-    const fileName = "bill-tracker-backup.json";
+    const fileName = "bill-tracker-v1-backup.json";
     const directoryHandle = await getBackupDirectoryHandle();
 
     if (!directoryHandle) {
@@ -4537,7 +4537,7 @@ async function autoSaveToBackup() {
         }
         if (permission !== "granted") return;
 
-        const fileName = "bill-tracker-backup.json";
+        const fileName = "bill-tracker-v1-backup.json";
         const activated = localStorage.getItem("billTrackerActivated");
         const exportData = activated ? { ...data, _activated: true } : data;
         const json = JSON.stringify(exportData, null, 2);
@@ -4555,7 +4555,7 @@ async function autoSaveToBackup() {
 }
 
 async function exportJson() {
-    const fileName = "bill-tracker-backup.json";
+    const fileName = "bill-tracker-v1-backup.json";
     const json = JSON.stringify(data, null, 2);
     const blob = new Blob([json], { type: "application/json" });
 

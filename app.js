@@ -272,6 +272,8 @@ window.addEventListener("scroll", () => {
 
 function init() {
     document.title = `Bill Payment Tracker v${APP_VERSION}`;
+    const versionEl = document.getElementById("appVersion");
+    if (versionEl) versionEl.textContent = `v${APP_VERSION}`;
     renderMiniCalendar();
     const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const isOnline = window.location.protocol === "https:";

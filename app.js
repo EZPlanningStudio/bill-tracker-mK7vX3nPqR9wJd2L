@@ -1533,6 +1533,14 @@ function showActivationModal() {
     document.getElementById("activationModal").classList.add("active");
 }
 
+function toggleBackupGuide() {
+  const body = document.getElementById('backupGuideBody');
+  const chevron = document.getElementById('backupGuideChevron');
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  chevron.classList.toggle('open', !isOpen);
+}
+
 function closeActivationModal() {
     document.getElementById("activationModal").classList.remove("active");
     if (localStorage.getItem("activeSection") === "add") {

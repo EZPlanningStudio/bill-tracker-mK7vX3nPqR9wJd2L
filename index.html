@@ -917,6 +917,46 @@
             </div>
           </div>
         </div>
+
+        <div class="panel" style="margin-top:0;">
+          <button class="backup-guide-toggle" id="backupGuideToggle" onclick="toggleBackupGuide()">
+            <span>🌐 Using the App Across Multiple Devices</span>
+            <svg class="backup-guide-chevron" id="backupGuideChevron" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="5 8 10 13 15 8"/>
+            </svg>
+          </button>
+          <div class="backup-guide-body" id="backupGuideBody" style="display:none;">
+            <div class="note" style="margin-top:14px;">
+              Your app data is stored locally in your browser on each device. Because browser storage is not permanent, we strongly recommend creating regular backups to keep your data safe.
+              <br><br>
+              To use the app across multiple devices, save your backups to Google Drive, OneDrive, or iCloud Drive. This makes importing and exporting between devices much faster.
+              <br><br>
+              💡 We recommend <strong>Google Drive</strong> — it works well across Windows, Mac, Android, and iPhone.
+            </div>
+
+            <h2 style="margin-top:18px;">🖥️ Computer Setup</h2>
+            <ol class="backup-guide-list">
+              <li>Install Google Drive or OneDrive on your computer and sign in</li>
+              <li>Wait for the Google Drive or OneDrive folder to appear in your file manager</li>
+              <li>In the app, go to Backup → Automatic Backup → Choose Backup Location</li>
+              <li>Select a folder inside your Google Drive or OneDrive</li>
+              <li>Your backups will now save automatically and sync to your other devices</li>
+            </ol>
+
+            <h2 style="margin-top:18px;">📱 Phone &amp; Tablet Setup</h2>
+            <ol class="backup-guide-list">
+              <li>Install the same cloud storage app on your phone or tablet and sign in with the same account</li>
+              <li>Open the app and find your backup folder</li>
+              <li>Make the folder available offline so it syncs automatically</li>
+              <li>In Bill Payment Tracker, go to Backup → Import JSON Backup</li>
+              <li>Select the latest backup file from your cloud folder</li>
+            </ol>
+
+            <div class="note" style="margin-top:14px; margin-bottom:0;">
+              💡 Before switching devices, make sure your latest backup was saved on the device you used last.
+            </div>
+          </div>
+        </div>
       </section>
 
       <div id="welcomeBackupModal" class="modal">

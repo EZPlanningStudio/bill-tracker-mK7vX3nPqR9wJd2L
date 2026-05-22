@@ -4522,8 +4522,9 @@ async function smartImportBackup() {
 
     if (directoryHandle) {
         await importLatestBackup();
+    } else {
+        document.getElementById("importJson").click();
     }
-    // Dacă nu e locație setată, nu facem nimic — userul introduce date manual
 }
 
 async function autoSaveToBackup() {

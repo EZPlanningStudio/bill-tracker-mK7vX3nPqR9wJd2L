@@ -3752,7 +3752,7 @@ function renderYearlyMonthlyCard(cat, color, yearBills, year) {
     const totalPaid = monthData.reduce((s, m) => s + m.paid, 0);
 
     // SVG bar chart
-    const W = 300, H = 120, PL = 36, PR = 6, PT = 0, PB = 10;
+    const W = 300, H = 130, PL = 36, PR = 6, PT = 8, PB = 16;
     const chartW = W - PL - PR;
     const chartH = H - PT - PB;
     const maxVal = Math.max(...monthData.map(m => Math.max(m.exp, m.paid)), 1);
@@ -3795,7 +3795,7 @@ function renderYearlyMonthlyCard(cat, color, yearBills, year) {
     // Baseline
     const baseY = (PT + chartH).toFixed(1);
     const svgChart = `
-        <svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" xmlns="http://www.w3.org/2000/svg" aria-label="${cat} monthly trends ${year}">
+        <svg viewBox="0 0 ${W} ${H}" width="100%" xmlns="http://www.w3.org/2000/svg" aria-label="${cat} monthly trends ${year}">
             ${yTicks}
             <line x1="${PL}" y1="${PT}" x2="${PL}" y2="${baseY}" stroke="var(--line)" stroke-width="1"/>
             <line x1="${PL}" y1="${baseY}" x2="${W - PR}" y2="${baseY}" stroke="var(--line)" stroke-width="1"/>

@@ -2987,6 +2987,8 @@
        padding: 12px 10px 8px;
        border-bottom: 1px solid var(--line);
        flex-shrink: 0;
+       align-self: stretch;
+       width: 100%;
    }
 
    .mi-bar-chart-title {

@@ -276,6 +276,8 @@ function init() {
     renderMiniCalendar();
     const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const isOnline = window.location.protocol === "https:";
+    const menuActivation = document.getElementById("menuActivation");
+    if (menuActivation) menuActivation.style.display = isActivated() ? "none" : "";
     if (isMobile || isOnline) {
         const autoBackup = document.getElementById("autoBackupSection");
         if (autoBackup) autoBackup.style.display = "none";
@@ -630,6 +632,8 @@ function bindEvents() {
 
     document.querySelectorAll("nav button").forEach(button => {
         button.addEventListener("click", () => {
+            if (button.id === "menuActivation") { document.querySelector(".app").classList.remove("mobile-menu-open"); showActivationModal(); return; }
+            if (!button.dataset.section) return;
             showSection(button.dataset.section);
             document.querySelector(".app").classList.remove("mobile-menu-open");
         });
@@ -1868,6 +1872,7 @@ function editBill(id) {
     }
     els.billPaidAmount.value = bill.actualAmount != null ? Number(bill.actualAmount).toFixed(2) : "";
     els.billPaidDate.value = bill.actualDate || "";
+    els.billPaidDate.classList.toggle("has-value", !!bill.actualDate);
     els.billPaidAmount.addEventListener("blur", () => {
         if (els.billPaidAmount.value !== "") {
             els.billPaidAmount.value = Number(els.billPaidAmount.value).toFixed(2);

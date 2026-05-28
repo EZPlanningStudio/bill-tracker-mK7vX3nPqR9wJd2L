@@ -34,7 +34,7 @@ const defaultData = {
     customCurrencies: [],
     billNameGroups: [],
     priorityNames: ["Critical", "High", "Medium", "Low", "Optional"],
-    categoryBudgets: {}
+    monthlyBudgets: {}
 };
 
 let data = loadData();
@@ -356,7 +356,8 @@ function normalizeAppData(rawData = {}) {
             : [],
         customCurrencies: Array.isArray(source.customCurrencies) ? source.customCurrencies : [],
         billNameGroups: Array.isArray(source.billNameGroups) ? source.billNameGroups : [],
-        priorityNames: Array.isArray(source.priorityNames) ? source.priorityNames : base.priorityNames
+        priorityNames: Array.isArray(source.priorityNames) ? source.priorityNames : base.priorityNames,
+        monthlyBudgets: source.monthlyBudgets && typeof source.monthlyBudgets === "object" ? source.monthlyBudgets : {}
     };
 }
 
@@ -1152,6 +1153,7 @@ function initInsightsYearDropdown() {
             setRainbowTitle(getCurrentMonthName(), "insights");
             updateSectionLabel("monthly");
             renderMonthlyInsights();
+            renderMonthlyNotes();
         });
         menu.appendChild(div);
     });
@@ -1197,6 +1199,7 @@ function initInsightsMonthDropdown() {
             updateSectionLabel("monthly");
             renderPageHeader("monthly");
             renderMonthlyInsights();
+            renderMonthlyNotes();
         });
         menu.appendChild(div);
     });
@@ -2887,18 +2890,20 @@ function renderMonthlyInsights() {
     ];
 
 
-    const totalBudget = parseFloat(data.totalBudget || 0);
-    const catSum = Object.values(data.categoryBudgets || {}).reduce((s, v) => s + (parseFloat(v) || 0), 0);
+    const _mk = `${year}-${String(month + 1).padStart(2, "0")}`;
+    const _mb = data.monthlyBudgets?.[_mk] || {};
+    const totalBudget = parseFloat(_mb.total || 0);
+    const catSum = Object.values(_mb.categories || {}).reduce((s, v) => s + (parseFloat(v) || 0), 0);
     const overdraftAmount = totalBudget > 0 && catSum > totalBudget ? catSum - totalBudget : 0;
 
     el.className = "mi-cat-grid";
-    el.innerHTML = renderSummaryCard(catColors, monthBills, month, year) + data.categories.map((cat, idx) => {
+    el.innerHTML = renderSummaryCard(catColors, monthBills, month, year, _mk) + data.categories.map((cat, idx) => {
         const color = catColors[idx % catColors.length];
-        return renderCategoryCard(cat, color, monthBills, month, year, overdraftAmount);
+        return renderCategoryCard(cat, color, monthBills, month, year, overdraftAmount, _mk);
     }).join("");
 }
 
-function renderSummaryCard(catColors, monthBills, month, year) {
+function renderSummaryCard(catColors, monthBills, month, year, _mk) {
     const R = 66, CX = 90, CY = 90, SW = 30, CIRC = 2 * Math.PI * R;
     const GAP = 1.5;
     const monthName = new Date(year, month).toLocaleString("default", { month: "short" });
@@ -2910,7 +2915,7 @@ function renderSummaryCard(catColors, monthBills, month, year) {
         const payments = catBills.filter(b => b.type !== "refund");
         const totalExp = catBills.reduce((s, b) => b.type === "refund" ? s - (parseFloat(b.amount) || 0) : s + (parseFloat(b.amount) || 0), 0);
         const totalPaid = sum(catBills.filter(b => b.paid));
-        const budget = parseFloat(data.categoryBudgets?.[cat] || 0);
+        const budget = parseFloat(data.monthlyBudgets?.[_mk]?.categories?.[cat] || 0);
         return { cat, color, totalExp, totalPaid, budget, payments };
     });
 
@@ -2990,8 +2995,8 @@ function renderSummaryCard(catColors, monthBills, month, year) {
                         <span class="mi-budget-prefix" style="color:var(--peach-text);">$</span>
                         <div class="mi-budget-hint" id="mi-budget-hint-breakdown"></div>
                         <input class="mi-budget-input" type="number" placeholder="${grandBudget > 0 ? grandBudget.toFixed(2) : '—'}"
-                            style="color:${data.totalBudget > 0 ? 'var(--peach-text)' : 'var(--muted)'};border-color:var(--peach);"
-                            value="${data.totalBudget > 0 ? data.totalBudget.toFixed(2) : ''}"
+                            style="color:${data.monthlyBudgets?.[_mk]?.total > 0 ? 'var(--peach-text)' : 'var(--muted)'};border-color:var(--peach);"
+                            value="${data.monthlyBudgets?.[_mk]?.total > 0 ? data.monthlyBudgets[_mk].total.toFixed(2) : ''}"
                             oninput="saveAllBudget(this)" onblur="saveAllBudgetOnBlur(this)" autocomplete="off" autocorrect="off" autocapitalize="off"
             onfocus="showBudgetHint(this)"
             oninput="showBudgetHint(this)"
@@ -3045,14 +3050,14 @@ function renderSummaryCard(catColors, monthBills, month, year) {
         </div>`;
 }
 
-function renderCategoryCard(cat, color, monthBills, month, year, overdraftAmount) {
+function renderCategoryCard(cat, color, monthBills, month, year, overdraftAmount, _mk) {
     const catBills = monthBills.filter(b => b.category === cat);
     const payments = catBills.filter(b => b.type !== "refund");
     const refunds = catBills.filter(b => b.type === "refund");
     const totalExp = catBills.reduce((s, b) => b.type === "refund" ? s - (parseFloat(b.amount) || 0) : s + (parseFloat(b.amount) || 0), 0);
     const totalPaid = sum(catBills.filter(b => b.paid));
     const totalLeftToPay = sum(payments.filter(b => !b.paid));
-    const budget = parseFloat(data.categoryBudgets?.[cat] || 0);
+    const budget = parseFloat(data.monthlyBudgets?.[_mk]?.categories?.[cat] || 0);
     const totalFinal = sum(catBills);
     const max = Math.max(budget, totalFinal, 1);
     const expPct = Math.min((totalFinal / max) * 100, 100);
@@ -3294,14 +3299,17 @@ function saveCategoryBudget(input) {
     const cat = input.dataset.cat;
     const isEmpty = input.value.trim() === "";
     const val = parseFloat(input.value) || 0;
-    if (!data.categoryBudgets) data.categoryBudgets = {};
+    const month = currentCalendarDate.getMonth();
+    const year = currentCalendarDate.getFullYear();
+    const mk = `${year}-${String(month + 1).padStart(2, "0")}`;
+    if (!data.monthlyBudgets) data.monthlyBudgets = {};
+    if (!data.monthlyBudgets[mk]) data.monthlyBudgets[mk] = {};
+    if (!data.monthlyBudgets[mk].categories) data.monthlyBudgets[mk].categories = {};
 
-    if (isEmpty) {
-        delete data.categoryBudgets[cat];
-    } else if (val === 0) {
-        delete data.categoryBudgets[cat];
+    if (isEmpty || val === 0) {
+        delete data.monthlyBudgets[mk].categories[cat];
     } else {
-        data.categoryBudgets[cat] = val;
+        data.monthlyBudgets[mk].categories[cat] = val;
     }
 
     clearTimeout(_budgetSaveTimer);
@@ -3315,14 +3323,17 @@ function saveCategoryBudgetOnBlur(input) {
     const cat = input.dataset.cat;
     const isEmpty = input.value.trim() === "";
     const val = parseFloat(input.value) || 0;
-    if (!data.categoryBudgets) data.categoryBudgets = {};
+    const month = currentCalendarDate.getMonth();
+    const year = currentCalendarDate.getFullYear();
+    const mk = `${year}-${String(month + 1).padStart(2, "0")}`;
+    if (!data.monthlyBudgets) data.monthlyBudgets = {};
+    if (!data.monthlyBudgets[mk]) data.monthlyBudgets[mk] = {};
+    if (!data.monthlyBudgets[mk].categories) data.monthlyBudgets[mk].categories = {};
 
-    if (isEmpty) {
-        delete data.categoryBudgets[cat];
-    } else if (val === 0) {
-        delete data.categoryBudgets[cat];
+    if (isEmpty || val === 0) {
+        delete data.monthlyBudgets[mk].categories[cat];
     } else {
-        data.categoryBudgets[cat] = val;
+        data.monthlyBudgets[mk].categories[cat] = val;
     }
 
     saveData();
@@ -3330,7 +3341,10 @@ function saveCategoryBudgetOnBlur(input) {
 }
 
 function showBudgetHint(input) {
-    const totalBudget = parseFloat(data.totalBudget || 0);
+    const month = currentCalendarDate.getMonth();
+    const year = currentCalendarDate.getFullYear();
+    const mk = `${year}-${String(month + 1).padStart(2, "0")}`;
+    const totalBudget = parseFloat(data.monthlyBudgets?.[mk]?.total || 0);
     if (totalBudget <= 0) return;
     const hint = input.closest(".mi-budget-input-row").querySelector(".mi-budget-hint");
     if (!hint) return;
@@ -3416,7 +3430,16 @@ function saveMonthlyNote(textarea, key) {
 
 function saveAllBudget(input) {
     const val = parseFloat(input.value) || 0;
-    data.totalBudget = val;
+    const month = currentCalendarDate.getMonth();
+    const year = currentCalendarDate.getFullYear();
+    const mk = `${year}-${String(month + 1).padStart(2, "0")}`;
+    if (!data.monthlyBudgets) data.monthlyBudgets = {};
+    if (!data.monthlyBudgets[mk]) data.monthlyBudgets[mk] = {};
+    if (val === 0) {
+        delete data.monthlyBudgets[mk].total;
+    } else {
+        data.monthlyBudgets[mk].total = val;
+    }
     clearTimeout(_budgetSaveTimer);
     _budgetSaveTimer = setTimeout(() => {
         saveData();
@@ -3426,7 +3449,16 @@ function saveAllBudget(input) {
 function saveAllBudgetOnBlur(input) {
     clearTimeout(_budgetSaveTimer);
     const val = parseFloat(input.value) || 0;
-    data.totalBudget = val;
+    const month = currentCalendarDate.getMonth();
+    const year = currentCalendarDate.getFullYear();
+    const mk = `${year}-${String(month + 1).padStart(2, "0")}`;
+    if (!data.monthlyBudgets) data.monthlyBudgets = {};
+    if (!data.monthlyBudgets[mk]) data.monthlyBudgets[mk] = {};
+    if (val === 0) {
+        delete data.monthlyBudgets[mk].total;
+    } else {
+        data.monthlyBudgets[mk].total = val;
+    }
     saveData();
     renderMonthlyInsights();
 }
@@ -3464,9 +3496,7 @@ function renderYearlySummary() {
     ];
 
     if (!yearBills.length) {
-        el.innerHTML = `<div class="empty">No bills for this year yet.</div>`;
         renderYearlyNotes();
-        return;
     }
 
     renderYearlyNotes();
